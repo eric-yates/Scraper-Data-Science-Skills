@@ -24,7 +24,7 @@ wordcloud
 
 ### Installing
 
-If your computer does not already have Python 2.7 installed, download Python 2.7 [here](https://www.python.org/downloads/).
+If your computer does not already have Python 2.7 installed, download Python 2.7 <a href="https://www.python.org/downloads/" target="_blank">here</a>.
 
 By default, Python should come with pip (a package manager). Use it to install the following dependencies by opening the Terminal and entering the commands as follows for each of the prerequisites:
 
