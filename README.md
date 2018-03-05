@@ -4,42 +4,45 @@ Respectfully scrapes job postings from Indeed and creates visualizations
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get a copy of the project up and running on your local machine.
 
 ### Prerequisites
 
 What things you need to install the software and how to install them
 
 ```
-urllib2
-re
+Python 2.7
 pandas
 nltk
 robotparser
 numpy
 seaborn
 matplotlib
-bs4
+beautifulsoup4
 wordcloud
 ```
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
+If your computer does not already have Python 2.7 installed, download Python 2.7 [here] (https://www.python.org/downloads/).
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
+By default, Python should come with pip (a package manager). Use it to install the following dependencies by opening the Terminal and entering the commands as follows for each of the prerequisites:
 
 ```
-until finished
+pip install pandas
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+And then
+
+```
+pip install nltk
+```
+
+And so forth until all the prerequisites have been installed. Spell each prerequisite exactly as listed in the prerequisites section.
+
+### Usage
+
+
 
 ## Built With
 
