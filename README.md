@@ -12,9 +12,9 @@ What things you need to install the software and how to install them
 
 ```
 Python 2.7
+
 pandas
 nltk
-robotparser
 numpy
 seaborn
 matplotlib
@@ -24,7 +24,7 @@ wordcloud
 
 ### Installing
 
-If your computer does not already have Python 2.7 installed, download Python 2.7 <a href="https://www.python.org/downloads/" target="_blank">here</a>.
+If your computer does not already have Python 2.7 installed, download Python 2.7 [here](https://www.python.org/downloads/)
 
 By default, Python should come with pip (a package manager). Use it to install the following dependencies by opening the Terminal and entering the commands as follows for each of the prerequisites:
 
@@ -38,7 +38,7 @@ And then
 pip install nltk
 ```
 
-And so forth until all the prerequisites have been installed. Spell each prerequisite exactly as listed in the prerequisites section.
+And so forth until all the prerequisites have been installed. Spell each prerequisite exactly as listed in the prerequisites section with the same capitalization.
 
 ### Usage
 
