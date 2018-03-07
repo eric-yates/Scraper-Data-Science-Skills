@@ -60,6 +60,8 @@ If filled in, the program will scrape job postings, seperately but automatically
 
 The script currently searches for common data science skills only (as seen starting on line 214). To search for other job titles, it may be necessary to modify the dictionaries and/or create new dictionaries. 
 
+The key (ie. left term) in the dictionary will be how it's presented on the graphs, and the value (ie. right term) must be lowercase to properly search for all occurrences of the term (the text was converted to all lower case before counting).
+
 For example, to create a skill set for web developers, you may create a new dictionary like such:
 
 ```
@@ -69,6 +71,8 @@ developer_tools = Counter({'HTML': doc_frequency['html'],
                           ...
                           })
 ```
+
+
 
 ### Development
 
