@@ -53,9 +53,7 @@ And so forth until all the prerequisites have been installed. Spell each prerequ
 
 ## Authors
 
-* **Eric Yates** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Eric Yates** - [Github Profile](https://github.com/eric-yates)
 
 ## License
 
