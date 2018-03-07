@@ -42,6 +42,8 @@ And so forth until all the prerequisites have been installed. Spell each prerequ
 
 ### Usage
 
+## Basic
+
 After setting up, run the Python script from the IDLE. It will ask for user input for:
 
 ```
@@ -53,6 +55,22 @@ State - Optional: Use a 2 letter abbreviation (ie. NY for New York), although it
 Then it will ask for a second query to compare results with the first query. This is optional. If left blank (ie. just hit enter), only the first query/city/state will be searched and no comparisons will be made. This will only display the wordcloud of skills and the percentage of job postings that contain each skill.
 
 If filled in, the program will scrape job postings, seperately but automatically, for both query/city/state combinations. It will then display the wordcloud and percentage of job postings that contain each skill, for both combinations, as well as the percent difference graph between skills (ie. more common/less common skills with respect to the second query) and the adjusted score (for the second query).
+
+## Searching for Jobs Other than Data Scientist
+
+The script currently searches for common data science skills only (as seen starting on line 214). To search for other job titles, it may be necessary to modify the dictionaries and/or create new dictionaries. 
+
+For example, to create a skill set for web developers, you may create a new dictionary like such:
+
+```
+developer_tools = Counter({'HTML': doc_frequency['html'],
+                          'CSS': doc_frequency['css'],
+                          'Javascript': doc_frequency['javascript'],
+                          ...
+                          })
+```
+
+### Development
 
 ## Built With
 
