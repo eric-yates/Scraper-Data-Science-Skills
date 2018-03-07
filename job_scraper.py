@@ -80,7 +80,10 @@ def split_text(text, operand='+', plusified=''):
 
 def spaces_to_pluses(q, city, state):
     """
-
+    Calls the split_text() function on the query, city, and state
+    to replace spaces with + symbols (or any other operand specified).
+    
+    Used to create the query URL (a URL cannot contain spaces).
     """
 
     if city and state:
@@ -491,8 +494,8 @@ if __name__ == '__main__':
     query2 = raw_input('Second search? Leave blank: No second search. ')
 
     if query2:
-        city2 = raw_input('In what city? Enter None: Search nationwide. ')
-        state2 = raw_input('In what state? Enter None: Search nationwide. ')
+        city2 = raw_input('In what city? Leave blank: Search nationwide. ')
+        state2 = raw_input('In what state? Leave blank: Search nationwide. ')
 
     print('')
 
