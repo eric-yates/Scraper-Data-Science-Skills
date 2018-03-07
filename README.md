@@ -40,9 +40,9 @@ pip install nltk
 
 And so forth until all the prerequisites have been installed. Spell each prerequisite exactly as listed in the prerequisites section with the same capitalization.
 
-### Usage
+## Usage
 
-## Basic
+### Basic
 
 After setting up, run the Python script from the IDLE. It will ask for user input for:
 
@@ -56,7 +56,7 @@ Then it will ask for a second query to compare results with the first query. Thi
 
 If filled in, the program will scrape job postings, seperately but automatically, for both query/city/state combinations. It will then display the wordcloud and percentage of job postings that contain each skill, for both combinations, as well as the percent difference graph between skills (ie. more common/less common skills with respect to the second query) and the adjusted score (for the second query).
 
-## Searching for Jobs Other than Data Scientist
+### Searching for Jobs Other than Data Scientist
 
 The script currently searches for common data science skills only (as seen starting on line 214). To search for other job titles, it may be necessary to modify the dictionaries and/or create new dictionaries. 
 
@@ -71,10 +71,6 @@ developer_tools = Counter({'HTML': doc_frequency['html'],
                           ...
                           })
 ```
-
-
-
-### Development
 
 ## Built With
 
