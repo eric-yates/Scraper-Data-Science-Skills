@@ -47,7 +47,7 @@ After setting up, run the Python script from the IDLE. It will ask for user inpu
 ```
 Query - The search for job position, skills, etc. (Example: data scientist healthcare)
 City - Optional: The city to search in. If left blank (ie. just hit enter), it will search nationwide.
-State - Optional: The state to search in. If left blank (ie. just hit enter), it will search nationwide.
+State - Optional: Use a 2 letter abbreviation (ie. NY for New York), although it should work even with full name.
 ```
 
 Then it will ask for a second query to compare results with the first query. This is optional. If left blank (ie. just hit enter), only the first query/city/state will be searched and no comparisons will be made. This will only display the wordcloud of skills and the percentage of job postings that contain each skill.
