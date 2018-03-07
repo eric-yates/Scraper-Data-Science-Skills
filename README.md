@@ -42,7 +42,17 @@ And so forth until all the prerequisites have been installed. Spell each prerequ
 
 ### Usage
 
+After setting up, run the Python script from the IDLE. It will ask for user input for:
 
+```
+Query - The search for job position, skills, etc. (Example: data scientist healthcare)
+City - Optional: The city to search in. If left blank (ie. just hit enter), it will search nationwide.
+State - Optional: The state to search in. If left blank (ie. just hit enter), it will search nationwide.
+```
+
+Then it will ask for a second query to compare results with the first query. This is optional. If left blank (ie. just hit enter), only the first query/city/state will be searched and no comparisons will be made. This will only display the wordcloud of skills and the percentage of job postings that contain each skill.
+
+If filled in, the program will scrape job postings, seperately but automatically, for both query/city/state combinations. It will then display the wordcloud and percentage of job postings that contain each skill, for both combinations, as well as the percent difference graph between skills (ie. more common/less common skills with respect to the second query) and the adjusted score (for the second query).
 
 ## Built With
 
