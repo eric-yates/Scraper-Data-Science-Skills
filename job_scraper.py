@@ -22,7 +22,7 @@ https://jessesw.com/Data-Science-Skills/
 
 cd = '~/Documents/Projects/job-scraper/'
 
-    
+
 def make_soup(url):
 
     html = urllib2.urlopen(url).read()
@@ -52,15 +52,15 @@ def text_cleaner(soup):
     except:
         print 'Error decoding text'
         return
-    
-    text = re.sub("[^a-zA-Z.+3]"," ", text)
-    
+
+    text = re.sub("[^a-zA-Z.+3]", " ", text)
+
     text = text.lower().split()
 
     stop_words = set(stopwords.words('english'))
 
     text = [w for w in text if w not in stop_words]
-    
+
     return list(set(text))
 
 
@@ -75,15 +75,12 @@ def split_text(text, operand='+', plusified=''):
     for term in term_list:
         plusified += term + operand
 
-    return plusified[:-len(operand)] # Removes the last operand
+    return plusified[:-len(operand)]  # Removes the last operand
 
 
 def spaces_to_pluses(q, city, state):
     """
-    Calls the split_text() function on the query, city, and state
-    to replace spaces with + symbols (or any other operand specified).
-    
-    Used to create the query URL (a URL cannot contain spaces).
+
     """
 
     if city and state:
@@ -96,7 +93,9 @@ def spaces_to_pluses(q, city, state):
 def calc_seed(q, city, state):
 
     if city != 'Nationwide':
-        return ''.join(['https://www.indeed.com/jobs?q=', q, '&l=', city, '%2C+', state]) # Join all of our strings together so that indeed will search correctly
+        # Join all of our strings together so that indeed will search correctly
+        return ''.join(['https://www.indeed.com/jobs?q=', q,
+                        '&l=', city, '%2C+', state])
 
     else:
         return ''.join(['https://www.indeed.com/jobs?q=', q])
@@ -104,10 +103,10 @@ def calc_seed(q, city, state):
 
 def calc_num_jobs(soup):
 
-    jobs_str = soup.find(id = 'searchCount').string.encode('utf-8')
-    job_numbers = re.findall('\d+', jobs_str) # Finds all numbers in jobs_str
-    
-    if len(job_numbers) >= 3: # num_jobs >= 1000
+    jobs_str = soup.find(id='searchCount').string.encode('utf-8')
+    job_numbers = re.findall('\d+', jobs_str)  # Finds all numbers in jobs_str
+
+    if len(job_numbers) >= 3:  # num_jobs >= 1000
         return int(job_numbers[1]) * 1000 + int(job_numbers[2])
 
     else:   # 1 < num_jobs < 1000
@@ -131,12 +130,12 @@ def calc_current_page(seed, i):
 def calc_all_urls(soup):
 
     all_postings = soup.find(id='resultsCol')
-        
+
     all_urls = ['https://www.indeed.com/' + link.get('href')
-                    for link in all_postings.find_all('a') if link.get('href')]
-        
+                for link in all_postings.find_all('a') if link.get('href')]
+
     return filter(lambda x: 'clk?' in x, all_urls)
-    
+
 
 def get_job_descriptions(q='data+scientist', city='', state='', max_pages=10):
     '''
@@ -144,137 +143,141 @@ def get_job_descriptions(q='data+scientist', city='', state='', max_pages=10):
     postings on Indeed.com. It will crawl all of the job postings and keep
     track of how manyuse a preset list of typical data science skills. The
     final percentage for each skill is then displayed at the end of the
-    collation. 
-        
+    collation.
+
     Inputs: The location's city and state. These are optional. If no
     city/state is input,the function will assume a national search (this can
     take a while!). Input the city/state as strings, such as:
-    
+
     skills_info('Chicago', 'IL').
-    
+
     Use a two letter abbreviation for the state.
-    
+
     Output: A bar chart showing the most commonly desired skills in the job
     market for the query.
     '''
 
     base_url = 'https://www.indeed.com'
 
-    q, city, state = spaces_to_pluses(q, city, state) # Turn spaces into '+'
+    q, city, state = spaces_to_pluses(q, city, state)  # Turn spaces into '+'
     print 'Query:"' + q + '" in ' + city + ', ' + state + '\n'
 
-    seed = calc_seed(q, city, state) # Creates URL for seed page
+    seed = calc_seed(q, city, state)  # Creates URL for seed page
 
-    soup = make_soup(seed) # Creates BeautifulSoup object from HTML
-    
-    num_jobs = calc_num_jobs(soup) # Finds total number of jobs for query
+    soup = make_soup(seed)  # Creates BeautifulSoup object from HTML
+
+    num_jobs = calc_num_jobs(soup)  # Finds total number of jobs for query
     print 'There were', num_jobs, 'jobs found in', city, '\n'
 
-    num_pages = calc_num_pages(num_jobs, max_pages) # Number of pages to search
+    # Number of pages to search
+    num_pages = calc_num_pages(num_jobs, max_pages)
     print 'Getting pages 1-' + str(num_pages) + ':'
 
     job_descriptions = []
 
     for i in xrange(1, num_pages+1):
-        
+
         print 'Getting page', i
-        
+
         current_page = calc_current_page(seed, i)
 
         soup = make_soup(current_page)
 
         all_urls = calc_all_urls(soup)
-        
+
         for j in xrange(len(all_urls)):
-            
+
             try:
                 soup = make_soup(all_urls[j])
                 current_description = text_cleaner(soup)
                 job_descriptions.append(current_description)
-                
+
             except:
                 continue
-            
-            sleep(1) # Respect the server by not overloading it
+
+            sleep(1)  # Respect the server by not overloading it
 
     num_posts = len(job_descriptions)
-       
+
     print '\nThere were', num_posts, 'jobs successfully found. \n\n'
-    
+
     return job_descriptions, num_posts
 
 
 def get_freqs(job_descriptions):
-    
+
     doc_frequency = Counter()
     [doc_frequency.update(item) for item in job_descriptions]
 
     words = dict((k, v) for k, v in doc_frequency.items() if v >= 10)
 
-    languages = Counter({'R':doc_frequency['r'],
-                         'Python':doc_frequency['python'],
-                         'Java':doc_frequency['java'],
-                         'C++':doc_frequency['c++'],
-                         'Ruby':doc_frequency['ruby'],
-                         'Perl':doc_frequency['perl'],
-                         'Matlab':doc_frequency['matlab'],
+    languages = Counter({'R': doc_frequency['r'],
+                         'Python': doc_frequency['python'],
+                         'Java': doc_frequency['java'],
+                         'C++': doc_frequency['c++'],
+                         'Ruby': doc_frequency['ruby'],
+                         'Perl': doc_frequency['perl'],
+                         'Matlab': doc_frequency['matlab'],
                          'HTML': doc_frequency['html'],
                          'CSS': doc_frequency['css'],
-                         'JavaScript':doc_frequency['javascript'],
+                         'JavaScript': doc_frequency['javascript'],
                          'Scala': doc_frequency['scala']
                          })
-                      
-    analysis_tools = Counter({'Excel':doc_frequency['excel'],
-                              'Tableau':doc_frequency['tableau'],
-                              'D3.js':doc_frequency['d3.js'],
-                              'SAS':doc_frequency['sas'],
-                              'SPSS':doc_frequency['spss'],
-                              'D3':doc_frequency['d3']
-                              })  
 
-    hadoop_tools = Counter({'Hadoop':doc_frequency['hadoop'],
-                            'MapReduce':doc_frequency['mapreduce'],
-                            'Spark':doc_frequency['spark'],
-                            'Pig':doc_frequency['pig'],
-                            'Hive':doc_frequency['hive'],
-                            'Shark':doc_frequency['shark'],
-                            'Oozie':doc_frequency['oozie'],
-                            'ZooKeeper':doc_frequency['zookeeper'],
-                            'Flume':doc_frequency['flume'],
-                            'Mahout':doc_frequency['mahout']
+    analysis_tools = Counter({'Excel': doc_frequency['excel'],
+                              'Tableau': doc_frequency['tableau'],
+                              'D3.js': doc_frequency['d3.js'],
+                              'SAS': doc_frequency['sas'],
+                              'SPSS': doc_frequency['spss'],
+                              'D3': doc_frequency['d3']
+                              })
+
+    hadoop_tools = Counter({'Hadoop': doc_frequency['hadoop'],
+                            'MapReduce': doc_frequency['mapreduce'],
+                            'Spark': doc_frequency['spark'],
+                            'Pig': doc_frequency['pig'],
+                            'Hive': doc_frequency['hive'],
+                            'Shark': doc_frequency['shark'],
+                            'Oozie': doc_frequency['oozie'],
+                            'ZooKeeper': doc_frequency['zookeeper'],
+                            'Flume': doc_frequency['flume'],
+                            'Mahout': doc_frequency['mahout']
                             })
-                
-    databases = Counter({'SQL':doc_frequency['sql'],
-                         'NoSQL':doc_frequency['nosql'],
-                         'HBase':doc_frequency['hbase'],
-                         'Cassandra':doc_frequency['cassandra'],
-                         'MongoDB':doc_frequency['mongodb'],
-                         'PostgreSQL':doc_frequency['postgresql'],
-                         'MySQL':doc_frequency['mysql']
+
+    databases = Counter({'SQL': doc_frequency['sql'],
+                         'NoSQL': doc_frequency['nosql'],
+                         'HBase': doc_frequency['hbase'],
+                         'Cassandra': doc_frequency['cassandra'],
+                         'MongoDB': doc_frequency['mongodb'],
+                         'PostgreSQL': doc_frequency['postgresql'],
+                         'MySQL': doc_frequency['mysql']
                          })
 
-    libraries = Counter({'Numpy':doc_frequency['numpy'],
-                         'Pandas':doc_frequency['pandas'],
-                         'Scikit-learn':doc_frequency['scikit'] + doc_frequency['scikit-learn'],
-                         'Scipy':doc_frequency['scipy'],
-                         'Matplotlib':doc_frequency['matplotlib'],
-                         'Seaborn':doc_frequency['seaborn'],
-                         'Tensorflow':doc_frequency['tensorflow'],
-                         'Keras':doc_frequency['keras'],
-                         'Plotly':doc_frequency['plotly'],
-                         'Theano':doc_frequency['theano'],
-                         'NLTK':doc_frequency['nltk'],
-                         'Scrapy':doc_frequency['scrapy']
+    libraries = Counter({'Numpy': doc_frequency['numpy'],
+                         'Pandas': doc_frequency['pandas'],
+                         'Scikit-learn': doc_frequency['scikit']
+                         + doc_frequency['scikit-learn']
+                         + doc_frequency['sklearn']
+                         + doc_frequency['sk-learn'],
+                         'Scipy': doc_frequency['scipy'],
+                         'Matplotlib': doc_frequency['matplotlib'],
+                         'Seaborn': doc_frequency['seaborn'],
+                         'Tensorflow': doc_frequency['tensorflow'],
+                         'Keras': doc_frequency['keras'],
+                         'Plotly': doc_frequency['plotly'],
+                         'Theano': doc_frequency['theano'],
+                         'NLTK': doc_frequency['nltk'],
+                         'Scrapy': doc_frequency['scrapy']
                          })
     skills = languages + analysis_tools + hadoop_tools + databases + libraries
-                                  
+
     return skills, words
 
-    
+
 def get_df(skill_frequencies, num_posts, query, city):
-    
+
     df = pd.DataFrame(skill_frequencies.items(),
-                      columns = ['Term', 'NumPostings'])                  
+                      columns=['Term', 'NumPostings'])
 
     df['Percentage'] = df['NumPostings'] * 100 / num_posts
 
@@ -287,9 +290,9 @@ def save_df(df, num_posts, query, city):
 
     path = ''.join([cd, str(num_posts), '-', split_text(query), '-',
                     split_text(city), '-', timestamp, '.csv'])
-    
+
     df.to_csv(path)
-    
+
 
 def trim_df(df, q=None):
 
@@ -340,13 +343,14 @@ def calc_diffs(df1, df2, term='Percentage'):
     df2['Difference'] = 100 * (df2['Weighted'] - df2['df1']) / df2['df1']
 
     df2 = trim_df(df2, q='Weighted > 5 or df1 > 5')
-    
+
     mini = min(df2['Difference'])
     maxi = max(df2['Difference'])
 
     diff_range = maxi - mini
 
-    df2['Score'] = df2['Percentage'] * (1 + np.tanh((df2['Difference']) / diff_range))
+    df2['Score'] = df2['Percentage'] * \
+        (1 + np.tanh((df2['Difference']) / diff_range))
 
     return df2
 
@@ -355,18 +359,18 @@ def plot_diffs(df, y='Difference', query2, city2, state2):
 
     df.sort_values(y, ascending=False, inplace=True)
 
-    df['color'] = df.Difference.apply(lambda x: 'More Common' if x>0
+    df['color'] = df.Difference.apply(lambda x: 'More Common' if x > 0
                                       else 'Less Common')
 
     sns.set_style("whitegrid")
-    
+
     ax = sns.barplot(x='Term', y=y, data=df, hue='color',
                      palette={'More Common': 'g', 'Less Common': 'r'},
                      dodge=False)
 
     ax.legend().set_visible(False)
 
-    #ax.yaxis.set_major_locator(ticker.MultipleLocator(20))
+    # ax.yaxis.set_major_locator(ticker.MultipleLocator(20))
 
     title = create_title(query2, city2, state2)
 
@@ -382,15 +386,16 @@ def plot_diffs(df, y='Difference', query2, city2, state2):
 
     return
 
+
 def plot_score(df, y='Score', query2, city2, state2):
 
     df.sort_values(y, ascending=False, inplace=True)
 
-    df['color'] = df.Difference.apply(lambda x: 'More Common' if x>0
+    df['color'] = df.Difference.apply(lambda x: 'More Common' if x > 0
                                       else 'Less Common')
 
     sns.set_style("whitegrid")
-    
+
     ax = sns.barplot(x='Term', y=y, data=df, hue='color',
                      palette={'More Common': 'g', 'Less Common': 'r'},
                      dodge=False)
@@ -448,7 +453,7 @@ def create_wordcloud(df, query, city, state, numlistings, term, c='white',
     title = create_title(query, city, state)
 
     plt.title(title)
-    
+
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis('off')
     plt.savefig('wc-' + split_text(query) + '-' + split_text(city) + '-'
@@ -480,13 +485,15 @@ def group_average(df, skills, total=0):
         total += difference
 
     return total / (i + 1)
-        
-                  
+
+
 if __name__ == '__main__':
 
     query = raw_input('First search? ')
-    city = raw_input('In what city? Leave blank: Search nationwide. ') # If left '', will search nationwide
-    state = raw_input('In what state? Leave blank: Search nationwide. ') # Use two-letter abbreviation (ie. 'CO', 'IL',...)
+    # If left '', will search nationwide
+    city = raw_input('In what city? Leave blank: Search nationwide. ')
+    # Use two-letter abbreviation (ie. 'CO', 'IL',...)
+    state = raw_input('In what state? Leave blank: Search nationwide. ')
 
     print('')
 
@@ -503,7 +510,7 @@ if __name__ == '__main__':
 
     print('')
 
-    display_wc = raw_input('Display wordclouds? yes or no. ' )
+    display_wc = raw_input('Display wordclouds? yes or no. ')
 
     print('')
 
@@ -523,24 +530,31 @@ if __name__ == '__main__':
     plot_skills(df1, query, city, state)
 
     if query2:
-        
+
         plot_skills(df2, query2, city2, state2)
-        
+
         df3 = calc_diffs(df1, df2)
 
         averages = {
 
-        'vendor':[['Excel', 'SAS', 'Tableau', 'SPSS', 'Matlab'], 0],
-        'open_source': [['Hadoop', 'Spark', 'Hive', 'Tensorflow', 'Pig', 'Pandas', 'Scikit-learn'], 0],
-        'language': [['R', 'SQL', 'Python', 'Java', 'C++', 'Perl', 'Scala'], 0],
-        'statistics': [['Excel', 'SPSS', 'SAS', 'R'], 0],
-        'big_data': [['Tensorflow', 'Pig', 'Hadoop', 'Spark', 'Hive', 'Scikit-learn'], 0]
+            'vendor': [['Excel', 'SAS', 'Tableau', 'SPSS', 'Matlab'], 0],
+
+            'open_source': [['Hadoop', 'Spark', 'Hive', 'Tensorflow',
+                             'Pig', 'Pandas', 'Scikit-learn'], 0],
+
+            'language': [['R', 'SQL', 'Python', 'Java', 'C++',
+                          'Perl', 'Scala'], 0],
+
+            'statistics': [['Excel', 'SPSS', 'SAS', 'R'], 0],
+
+            'big_data': [['Tensorflow', 'Pig', 'Hadoop', 'Spark',
+                          'Hive', 'Scikit-learn'], 0]
 
         }
 
         for group in averages:
             averages[group][1] = group_average(df3, averages[group][0])
             print group + ': ' + str(np.round(averages[group][1], 1)) + '%'
-        
+
         plot_diffs(df3, query2, city2, state2)
         plot_score(df3, query2, city2, state2)
