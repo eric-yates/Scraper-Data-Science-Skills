@@ -8,7 +8,7 @@ These instructions will get a copy of the project up and running on your local m
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+What things you need to install the software and how to install them:
 
 ```
 Python 2.7
