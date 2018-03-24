@@ -1,6 +1,6 @@
 # job-scraper
 
-Respectfully scrapes job postings from Indeed and creates visualizations
+Respectfully scrapes job postings from Indeed and creates visualizations.
 
 ## Getting Started
 
@@ -26,7 +26,7 @@ These are the needed Python libraries:
 
 If your computer does not already have Python 2.7 installed, download Python 2.7 [here](https://www.python.org/downloads/)
 
-By default, Python should come with pip (a package manager). Use it to install the following dependencies by opening the Terminal and entering the commands as follows, line-by-line, for each of the prerequisites:
+By default, Python should come with pip (a package manager). Use it to install the following dependencies by opening the Terminal/command line and entering the commands as follows, line-by-line, for each of the prerequisites:
 
 ```
 pip install pandas
