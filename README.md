@@ -87,4 +87,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 
 ## Acknowledgments
 
-* **Jesse Steinweg-Woods**: Part of the code comes from [Web Scraping Indeed for Key Data Science Job Skills](https://jessesw.com/Data-Science-Skills/)
+* **Jesse Steinweg-Woods**: For his [tutorial](https://jessesw.com/Data-Science-Skills/) on web scraping for job skills.
