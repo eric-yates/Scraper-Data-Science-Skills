@@ -8,7 +8,7 @@ These instructions will get a copy of the project up and running on your local m
 
 ### Prerequisites
 
-All of the code is written in:
+Instructions for installing these software are listed in the next section: Installing. All of the code is written in:
 
 * Python 2.7
 
