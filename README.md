@@ -8,34 +8,34 @@ These instructions will get a copy of the project up and running on your local m
 
 ### Prerequisites
 
-What things you need to install the software and how to install them:
+All of the code is written in:
 
-```
-Python 2.7
+* Python 2.7
 
-pandas
-nltk
-numpy
-seaborn
-matplotlib
-beautifulsoup4
-wordcloud
-```
+These are the needed Python libraries:
+
+* pandas
+* nltk
+* numpy
+* seaborn
+* matplotlib
+* beautifulsoup4
+* wordcloud
 
 ### Installing
 
 If your computer does not already have Python 2.7 installed, download Python 2.7 [here](https://www.python.org/downloads/)
 
-By default, Python should come with pip (a package manager). Use it to install the following dependencies by opening the Terminal and entering the commands as follows for each of the prerequisites:
+By default, Python should come with pip (a package manager). Use it to install the following dependencies by opening the Terminal and entering the commands as follows, line-by-line, for each of the prerequisites:
 
 ```
 pip install pandas
-```
-
-And then
-
-```
 pip install nltk
+pip install numpy
+pip install seaborn
+pip install matplotlib
+pip install beautifulsoup4
+pip install wordcloud
 ```
 
 And so forth until all the prerequisites have been installed. Spell each prerequisite exactly as listed in the prerequisites section with the same capitalization.
@@ -46,11 +46,9 @@ And so forth until all the prerequisites have been installed. Spell each prerequ
 
 After setting up, run the Python script from the IDLE. It will ask for user input for:
 
-```
-Query - The search for job position, skills, etc. (Example: data scientist healthcare)
-City - Optional: The city to search in. If left blank (ie. just hit enter), it will search nationwide.
-State - Optional: Use a 2 letter abbreviation (ie. NY for New York).
-```
+* Query - The search for job position, skills, etc. (Example: data scientist healthcare)
+* City - Optional: The city to search in. If left blank (ie. just hit enter), it will search nationwide.
+* State - Optional: Use a 2 letter abbreviation (ie. NY for New York).
 
 Then it will ask for a second query to compare results with the first query. This is optional. If left blank (ie. just hit enter), only the first query/city/state will be searched and no comparisons will be made. This will only display the wordcloud of skills and the percentage of job postings that contain each skill.
 
@@ -89,4 +87,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 
 ## Acknowledgments
 
-* Jesse Steinweg-Woods: Part of the code comes from [Web Scraping Indeed for Key Data Science Job Skills](https://jessesw.com/Data-Science-Skills/)
+* **Jesse Steinweg-Woods**: Part of the code comes from [Web Scraping Indeed for Key Data Science Job Skills](https://jessesw.com/Data-Science-Skills/)
