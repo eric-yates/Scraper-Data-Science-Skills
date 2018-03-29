@@ -2,6 +2,10 @@
 
 Respectfully scrapes job postings from Indeed and creates visualizations.
 
+![](/images/percentages.jpg)
+![](/images/differences.jpg)
+![](/images/adjusted_scores.jpg)
+
 ## Getting Started
 
 These instructions will get a copy of the project up and running on your local machine.
